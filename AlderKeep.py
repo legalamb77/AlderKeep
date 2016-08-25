@@ -2,8 +2,6 @@ from sys import exit
 from random import randint
 
 class Scene(object):
-    def __init__(self,player_stats):
-        self.player_stats=player_stats
 
     def enter(self):
         print "You have found an unfinished scene. Woops."
@@ -22,7 +20,9 @@ class Engine(object):
                 "STRENGTH":10,
                 "SMARTS":10,
                 "SPEED":10,
-                "DEFENSE":10
+                "DEFENSE":10,
+                "SLOT_ONE":"NA",
+                "SLOT_TWO":"NA"
                 }
         print "Hero, you alone have the courage to save this land. What is your name?"
         name = raw_input(">>")
@@ -50,51 +50,73 @@ class Engine(object):
         current_scene=self.scene_map.opening_scene
         last_scene=self.scene_map.next_scene('fin')
         while current_scene!=last_scene:
-            #current_scene.enter() needs to return the name of the next scene
-            next_scene_name=current_scene.enter()
+            #current_scene.enter() needs to return (name of the next scene,stats)
+            next_scene_name,new_stats=current_scene.enter(stats)
+            stats=new_stats
             current_scene=self.scene_map.next_scene(next_scene_name)
-        current_scene.enter()
+        current_scene.enter(stats)
 
 class Death(Scene):
 
-    def enter(self):
+    def enter(self,ply_sts):
         print "You have died an ignoble death, the land shall be terrorized forevermore."
         exit(1)
 
 class Drawbridge(Scene):
 
-    def enter(self):
-        print "The rain batters down on your mother's armor as you are confronted with the sprawling home of the LICH KING, known only as ALDER KEEP."
+    def enter(self,ply_sts):
+        print "The rain batters down on your mother's armor(Unfortunately she left no sword) as you are confronted with the sprawling home of the LICH KING, known only as ALDER KEEP."
         print "The drawbridge is raised, and the moat churns with dark shapes in the water. Lurid light pours from several small windows about the walls of the keep."
         print "The grass is slick with mud underfoot, and the road you came in on is but a dirt path. A number of trees line the edges of the moat."
         print "What dost thou do?"
-        act=raw_input(">>")
+        while True:
+            act=raw_input(">>")
+            if act.upper()=="LOOK" or act.upper()=="EXAMINE" or act.upper()=="SEARCH":
+                print "While looking around, you find a set of tracks leading from the edge of the moat. It looks like they have come from a sewer grate on the side of the castle, which has been busted open. You could fit inside, but it's quite a distance to jump, way more than most people can."
+                print "What do you doest?"
+            elif act.upper()=="JUMP TO HOLE" or act.upper()=="JUMP IN HOLE":
+                print "You brace yourself, take a few steps back, and then take a running jump towards the grate!"
+                if ply_sts.get("STRENGTH")<12:
+                    print "Well damn young hero, I guess you shouldn't have skipped leg day so many times."
+                    print "You leap forwards with all your strength, but unfortunately all your strength isn't enough strength."
+                    print "You plummet into the water, and are eaten by horrendously large shark-bears."
+                    return("Death")
+                else:
+                    print "Grass and mud tears up beneath your feet as you leap forwards with great power!"
+                    print "You slam into the wall, and scrabbling for a handhold, you manage to grasp it, and climb in."
+                    #enter dungeon
+                    return ("Dungeon",ply_sts)
 class Grand_Hall(Scene):
 
-    def enter(self):
+    def enter(self,ply_sts):
         pass
 
 class Pantry(Scene):
 
-    def enter(self):
+    def enter(self,ply_sts):
         pass
 
 class Armory(Scene):
 
-    def enter(self):
+    def enter(self,ply_sts):
         pass
 
 class Dungeon(Scene):
 
-    def enter(self):
+    def enter(self,ply_sts):
         pass
 
 class Throne_Room(Scene):
 
-    def enter(self):
+    def enter(self,ply_sts):
         pass
 
     def battle(self):
+        pass
+
+class fin(Scene):
+
+    def enter(self,ply_sts):
         pass
 
 class Map(object):
@@ -107,6 +129,7 @@ class Map(object):
             'Armory':Armory(),
             'Dungeon':Dungon(),
             'Throne_Room':Throne_Room(),
+            'fin':fin()
             }
 
     def __init__(self, start_scene):
