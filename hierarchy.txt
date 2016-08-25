@@ -1,0 +1,24 @@
+Make a small text game with a battle scene at the end, basic rpg stuff.
+
+-You are a Brave Knight entering Alder Keep, and you seek to rid the land of the evil lich king.
+-Opening scene starts with a text prompt which allows you to choose a best and worst stat.
+-Rooms have small zork-style text adventure stuff.
+-Final room has a boss battle where optional items can be used to win.
+
+Hierarchy:
+*Map
+    -next_scene
+    -opening_scene
+*Engine
+    -player_stats
+    -play
+*Scene
+    -enter
+    **Death
+    **Drawbridge
+    **Grand Hall
+    **Pantry
+    **Armory
+    **Dungeon
+    **Throne Room
+        -battle
