@@ -16,9 +16,18 @@ Hierarchy:
     -enter
     **Death
     **Drawbridge
+    ***-Pantry
+    ***-Dungeon
     **Grand Hall
+    ***-Armory
+    ***-Pantry
     **Pantry
+    ***-Grand Hall
     **Armory
+    ***-Dungeon
+    ***-Grand Hall
+    ***-Throne Room
     **Dungeon
+    ***-Armory
     **Throne Room
         -battle
