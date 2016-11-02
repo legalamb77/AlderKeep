@@ -101,6 +101,12 @@ def check(item,ply_sts):
     else:
         return False
 
+def statCheck(DC,stat,ply_sts):
+    if ply_sts[stat]>=DC:
+        return True
+    else:
+        return False
+
 class Death(Scene):
 
     def enter(self,ply_sts):
