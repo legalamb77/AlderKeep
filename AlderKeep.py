@@ -58,6 +58,46 @@ class Engine(object):
             current_scene=self.scene_map.next_scene(next_scene_name)
         current_scene.enter(stats)
 
+def drop(item,ply_sts):
+    if item==1:
+        ply_sts["SLOT_ONE"]=="NA"
+        return ply_sts
+    else:
+        ply_sts["SLOT_TWO"]=="NA"
+        return ply_sts
+
+#Adds an item to the inventory, possibly calling drop to prompt player to drop an item
+def take(item,ply_sts):
+    if ply_sts.get("SLOT_ONE")=="NA":
+        ply_sts["SLOT_ONE"]=item
+        print "You pick up "+item
+        return ply_sts
+    elif ply_sts.get("SLOT_TWO")=="NA":
+        ply_sts["SLOT_TWO"]=item
+        print "You pick up "+item
+        return ply_sts
+    else:
+        print "Your backpack is full! Which Slot would you like to drop from?"
+        print "Slot one contains "+ply_sts.get("SLOT_ONE")
+        print "Slot two contains "+ply_sts.get("SLOT_TWO")
+        print "Enter 1, 2, or NA."
+        act=raw_input(">>")
+        if act==1:
+            return drop(1,ply_sts)
+        elif act==2:
+            return drop(2,ply_sts)
+        elif act.upper()==NA:
+            print "Ah well, you leave "+item+" behind."
+            return ply_sts
+        else:
+            print "WHAT ARE YOU SAYING. I CAN NOT UNDERSTAND YOU. PLEASE."
+            return ply_sts
+
+
+#Checks if a player has an item(for solving puzzles), returns True if they do, False otherwise
+def check(item,ply_sts):
+    print "check"
+
 class Death(Scene):
 
     def enter(self,ply_sts):
