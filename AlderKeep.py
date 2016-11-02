@@ -96,7 +96,10 @@ def take(item,ply_sts):
 
 #Checks if a player has an item(for solving puzzles), returns True if they do, False otherwise
 def check(item,ply_sts):
-    print "check"
+    if ply_sts.get("SLOT_ONE")==item:
+        return True
+    else:
+        return False
 
 class Death(Scene):
 
